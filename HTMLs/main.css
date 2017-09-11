@@ -64,6 +64,8 @@ li {
     font-size: 17px;
     margin-top: 10px;
     color: #979797;
+    -webkit-app-region: no-drag;
+
 }
 
 .middle-field h1 {

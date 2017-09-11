@@ -19,15 +19,15 @@ var yastreamAPI = (function() {
     api.apiRequests.prototype.SearchOnlineStream_url = function(url, async, callback) {
         xhrWithAuth('GET',
             apiUrl + 'Streams?url='+url,
-            null,
             async,
+            null,
             callback);
     }
      api.apiRequests.prototype.getUserInfo = function(async, callback) {
         xhrWithAuth('GET',
             apiUrl + 'Streamers?account=' + localStorage.id,
-            null,
             async,
+            null,
             callback);
     }
     api.apiRequests.prototype.qiwiAuth = function(code, callback) {
@@ -60,22 +60,41 @@ var yastreamAPI = (function() {
         });
     }
     api.apiRequests.prototype.addYMAuth = function(code) {
-        let params = {
+        var params = JSON.stringify( {
                     code: code,
                     type: 'yandex_money',
                     streamer: 'yes'
-        }
+        });
         xhrWithAuth('PUT',
             apiUrl + 'oauth?id='+ localStorage.id,
-            params,
             false,
+            params,
             function(data, error) {
                 if (data!=null){
                     console.log(data)
                     localStorage.setItem('ym_token', data.access_token)
                 }
+                console.log(error)
             });
     }
+    api.apiRequests.prototype.addQIWIAuth = function(code) {
+        var params = JSON.stringify( {
+                    code: code,
+                    type: 'qiwi'
+        });
+        xhrWithAuth('PUT',
+            apiUrl + 'oauth?id='+ localStorage.id,
+            false,
+            params,
+            function(data, error) {
+                if (data!=null){
+                    console.log(data)
+                    localStorage.setItem('ym_token', data.access_token)
+                }
+                console.log(error)
+            });
+    }
+
 
     api.apiRequests.prototype.getLiveStream = function(async, callback) {
         xhrWithAuth('GET',
@@ -146,10 +165,13 @@ var yastreamAPI = (function() {
         }
 
         function requestStart() {
-             var xhr = new XMLHttpRequest();
+            var xhr = new XMLHttpRequest();
+            console.log('3')
             xhr.open(method, url, async);
             xhr.setRequestHeader('Token',  localStorage.Token);
+            xhr.setRequestHeader('Content-Type',  'application/json');
             xhr.onload = requestComplete;
+            xhr.send(params);
         }
 
         function requestComplete() {

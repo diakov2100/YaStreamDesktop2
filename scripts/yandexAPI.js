@@ -2,6 +2,7 @@ var yandexAPI = (function() {
     var tokenName = 'yandex_token';
     var clientId = '880A4ADB0EEA4DABAA6B65ECCB91B71A47EBBFD54F129B7A47CC65D0322FD7B6';
     var scope = ['account-info', 'operation-history', 'operation-details'];
+    var redirect_url = 'https://bkjjipopfjknbeabnlelfhplklgjfcaf.chromiumapp.org';
     var authUrl = 'https://money.yandex.ru/oauth';
     var apiUrl = 'https://money.yandex.ru/api';
 
@@ -61,11 +62,19 @@ var yandexAPI = (function() {
         };
 */
         api.apiRequests.prototype.Authorization = function(callback) {
+            
+            var _authUrl = authUrl + '/authorize?client_id=' + clientId +
+                '&redirect_uri=' + redirect_url +
+                '&scope=' + scope.join(" ") +
+                '&response_type=' + 'code';
     
             authWindow = new BrowserWindow({
                 width: 730,
                 height: 750,
-                type: 'splash'
+                type: 'splash',
+                webPreferences: {
+                    nodeIntegration: false
+                }
             });
 
        
@@ -73,6 +82,7 @@ var yandexAPI = (function() {
                 console.log(url)
                 if (url.includes(redirect_url)){
                     let code = url.split('=')[1]
+                    authWindow.destroy()
                     callback(code);
                 }
             });
@@ -81,11 +91,12 @@ var yandexAPI = (function() {
                 let code = newUrl.split('=')[1]
                 console.log(code)
                 if (newUrl.includes(redirect_url)){
+                    authWindow.destroy()
                     callback(code);
                 }
             });
 
-        authWindow.loadURL(authUrl);
+        authWindow.loadURL(_authUrl);
 
     }
     return api;
