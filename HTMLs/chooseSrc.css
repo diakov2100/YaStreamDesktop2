@@ -1,0 +1,105 @@
+@font-face {
+    font-family: 'minecraft-rus';
+    src: url('../fonts/9303.ttf') format('truetype');
+}
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'minecraft-rus';
+    -webkit-user-select: none;
+}
+
+li {
+    -webkit-app-region: no-drag;
+    cursor: pointer;
+}
+
+.container {
+    width: 408px;
+    height: 257px;
+    -webkit-app-region: drag;
+    background-color: #29292c;
+}
+
+.loading {
+    width: 408px;
+    height: 257px;
+    background-color: #29292c;
+}
+
+.titleBar {
+    font-size: 12px;
+    width: 100%;
+    height: 22px;
+    text-align: center;
+    line-height: 22px;
+    color: #dbdbdb;
+}
+
+.text-house {
+    cursor: default;
+    width: 376px;
+    height: 49px;
+    color: #979797;
+    margin-top: 20px;
+    margin-left: 8px;
+}
+
+.text-house h1{
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.sources {
+    position: absolute;
+    z-index: 2;
+    list-style: none;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.sources li {
+    display: inline-block;
+}
+
+.sources li img:hover {
+    border: 3px solid #f3c647; 
+}
+
+.img-house {
+    width: 67px;
+    height: 67px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sources li img {
+    width: 60px;
+    height: 60px;
+}
+
+.buttons {
+    color: #979797;
+    list-style: none;
+    display: flex;
+    font-size: 17px;
+    justify-content: space-around;
+    margin-left: 8px;
+    margin-top: 115px;
+}
+
+.buttons li {
+    display: inline-block;
+}
+
+.buttons li:hover {
+    color: #f3c647;
+}
+
+.another {
+    margin-top: 3x;
+}

@@ -1,0 +1,132 @@
+ @font-face {
+        font-family: 'minecraft-rus';
+        src: url('../fonts/9303.ttf') format('truetype');
+    }
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'minecraft-rus';
+    -webkit-user-select: none;
+}
+
+
+.loading {
+    width: 533px;
+    height: 338px;
+    -webkit-app-region: drag;
+    background-color: #29292c;
+}
+
+.container {
+    width: 100%;
+    min-height: 338px;
+    height: 100%;
+    -webkit-app-region: drag;
+    background-color: #29292c;
+}
+
+.goal h2:hover {
+    color: #f3c647;
+    cursor: pointer;
+}
+
+.titleBar {
+    position: fixed;
+    font-size: 16px;
+    width: 100%;
+    height: 22px;
+    text-align: center;
+    line-height: 22px;
+    color: #dbdbdb;
+    background-color: #29292c;;
+}
+.titleBar p {
+    font-size: 12px;
+}
+.header {
+    margin-left: 16px;
+    color: #979797;
+    font-size: 19px;
+    padding-top: 22px;
+}
+
+.goals {
+    margin-top: 17px;
+    margin-left: 18px;
+    width: 497px;
+    background-color: #29292c;
+    -webkit-app-region: no-drag;   
+}
+
+.goal {
+    margin-top: 19px;
+}
+
+.goal h2 {
+    width: 215px;
+    word-break: break-all;
+}
+
+.goal h2, p {
+    display: inline-block;
+    color: #979797;
+    font-size: 16px;
+}
+
+.goal p {
+    float: right;
+    margin-right: 10px;
+}
+
+.goal img {
+    margin-left: 10px;
+}
+
+.btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 19px;
+    -webkit-app-region: no-drag; 
+}
+
+.btns p,
+h1 {
+    display: inline-block;
+}
+.btns h1 {
+        color: #979797;
+    font-size: 19px;
+    margin-bottom: 10px;
+    margin-right: 213px;
+    cursor: pointer;
+    width: 140px;
+}
+
+.btns h1:hover {
+    color: #f3c647;
+}
+
+.btns p {
+    cursor: pointer;
+    float: left;
+    color: #979797;
+    margin-top: 3px;
+    margin-left: 20px;
+    font-size: 12px;
+}
+
+p.return:hover {
+    color: #f3c647;
+}
+
+.noGoals {
+    display: flex;
+    justify-content: center;
+}
+
+.noGoals h1{
+    color: #979797;
+    font-size: 48px;
+    margin-top: 91px;
+}
