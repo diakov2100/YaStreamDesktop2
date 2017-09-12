@@ -18,6 +18,7 @@ window.onload = function() {
         $.ajax({
             url: 'https://money.yandex.ru/api/account-info',
             type: 'POST',
+            async: false,
             beforeSend: function(xhr) {
                 xhr.setRequestHeader('Authorization', 'Bearer ' + encodeURIComponent(localStorage.ym_token));
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -38,7 +39,8 @@ window.onload = function() {
     if (localStorage.qiwi_token) {
         qiwi.getBalance(false, function(data, error){
             if(data===null){
-               relogin();
+                console.log(error)
+                relogin();
             }
             else {
                 console.log(data);
@@ -55,7 +57,8 @@ window.onload = function() {
 
     yastream.getUserInfo(false, function(data, error){
             if(data===null){
-               relogin();
+                console.log(error)
+                relogin();
             }
     })
      yastream.getLiveStream(false, function(data, error){
@@ -73,7 +76,7 @@ window.onload = function() {
             }
     })
     if (localStorage.qiwi_token && !localStorage.ym_token) {
-        ReactDOM.render(<MainMain stream={localStorage.liveStream} ya_balance={'подключите Я.Д'} qiwi_balance={'QIWI: ' + localStorage.qiwi_balance + 'руб.'} />, document.getElementsByClassName('container')[0])
+        ReactDOM.render(<MainMain stream={localStorage.liveStream} ya_balance={'подключите Я.Д'} qiwi_balance={'QIWI: ' + localStorage.qiwi_balance + ' руб.'} />, document.getElementsByClassName('container')[0])
         document.getElementsByTagName('p')[1].onclick = () => {
             yandex.Authorization(yastream.addYMAuth)
         }
@@ -86,7 +89,8 @@ window.onload = function() {
         }
     }
     if (!localStorage.qiwi_token && localStorage.ym_token) {
-        ReactDOM.render(<MainMain stream={localStorage.liveStream} ya_balance={'Я.Д: ' + localStorage.ya_balance + 'руб.'} qiwi_balance={'подключите QIWI'} />, document.getElementsByClassName('container')[0])
+        console.log(localStorage.ya_balance)
+        ReactDOM.render(<MainMain stream={localStorage.liveStream} ya_balance={'Я.Д: ' + localStorage.ya_balance + ' руб.'} qiwi_balance={'подключите QIWI'} />, document.getElementsByClassName('container')[0])
         document.getElementsByTagName('p')[2].onclick = () => {
             qiwi.Authorization(yastream.addQIWIAuth)
         }
@@ -99,7 +103,7 @@ window.onload = function() {
         }
     }
     if (localStorage.qiwi_token && localStorage.ym_token) {
-    ReactDOM.render(<MainMain stream={localStorage.liveStream} ya_balance={'Я.Д: ' + localStorage.ya_balance + 'руб.'} qiwi_balance={'QIWI: ' + localStorage.qiwi_balance + 'руб.'} />, document.getElementsByClassName('container')[0])
+    ReactDOM.render(<MainMain stream={localStorage.liveStream} ya_balance={'Я.Д: ' + localStorage.ya_balance + ' руб.'} qiwi_balance={'QIWI: ' + localStorage.qiwi_balance + ' руб.'} />, document.getElementsByClassName('container')[0])
     }
 
             let active = true

@@ -74,6 +74,7 @@ var yastreamAPI = (function() {
                 if (data!=null){
                     console.log(data)
                     localStorage.setItem('ym_token', data.access_token)
+                    ipcRenderer.send('reload-main')
                 }
                 console.log(error)
             });
@@ -89,8 +90,7 @@ var yastreamAPI = (function() {
             params,
             function(data, error) {
                 if (data!=null){
-                    console.log(data)
-                    localStorage.setItem('ym_token', data.access_token)
+                    ipcRenderer.send('reload-main')
                 }
                 console.log(error)
             });

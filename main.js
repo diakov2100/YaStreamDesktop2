@@ -96,6 +96,9 @@ ipcMain.on('show-main-from-auto', () => {
     autorizationWindow.close()
     
 })
+ipcMain.on('reload-main', () => {
+   mainWindow.loadURL('file://' + __dirname + '/HTMLs/main.html');
+})
 ipcMain.on('show-settings', (event) => {
     event.returnValue = false
     settingsWindow = new BrowserWindow({
