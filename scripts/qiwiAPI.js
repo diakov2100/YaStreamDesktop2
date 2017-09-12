@@ -32,6 +32,26 @@ var qiwiAPI = (function() {
             async,
             callback);
     }
+    api.apiRequests.prototype.Authorization = function(callback) {
+        let  authWindow = new BrowserWindow({
+            width: 530,
+            frame: false,
+            height: 400,
+            type: 'splash',
+            show: false
+        });
+
+        authWindow.loadURL('file://' + __dirname + '/../HTMLs/qiwi.html');
+        authWindow.on('closed', () => {
+            authWindow = null;
+            if (localStorage.qiwi_token){
+                callback(localStorage.qiwi_token);
+            }
+        })
+        authWindow.once('ready-to-show', () => {
+            authWindow.show()
+        })
+    }
     /*
         api.apiRequests.prototype.checkauth = function(callback) {
             chrome.storage.sync.get(tokenName, function(items) {

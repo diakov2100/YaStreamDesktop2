@@ -77,11 +77,25 @@ window.onload = function() {
         document.getElementsByTagName('p')[1].onclick = () => {
             yandex.Authorization(yastream.addYMAuth)
         }
+        document.getElementsByTagName('p')[1].onmouseover = function() {
+            
+            this.style.color = '#efbc38'
+        }
+        document.getElementsByTagName('p')[1].onmouseleave = function() {
+            this.style.color = '#979797'
+        }
     }
     if (!localStorage.qiwi_token && localStorage.ym_token) {
         ReactDOM.render(<MainMain stream={localStorage.liveStream} ya_balance={'Я.Д: ' + localStorage.ya_balance + 'руб.'} qiwi_balance={'подключите QIWI'} />, document.getElementsByClassName('container')[0])
         document.getElementsByTagName('p')[2].onclick = () => {
             qiwi.Authorization(yastream.addQIWIAuth)
+        }
+        document.getElementsByTagName('p')[2].onmouseover = function() {
+            
+            this.style.color = '#efbc38'
+        }
+        document.getElementsByTagName('p')[2].onmouseleave = function() {
+            this.style.color = '#979797'
         }
     }
     if (localStorage.qiwi_token && localStorage.ym_token) {

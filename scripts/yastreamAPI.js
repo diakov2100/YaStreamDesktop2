@@ -8,6 +8,7 @@ var yastreamAPI = (function() {
     const path = require('path')
     const url = require('url')
     const storage = require('electron-json-storage');
+    
     var api = {
         apiRequests: function() {}
     };
