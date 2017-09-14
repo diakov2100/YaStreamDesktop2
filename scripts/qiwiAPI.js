@@ -32,6 +32,26 @@ var qiwiAPI = (function() {
             async,
             callback);
     }
+    api.apiRequests.prototype.getOperationsFromDate = function(startDate, endDate, async, callback) {
+        xhrWithAuth('GET',
+            apiUrl + 'payment-history/v1/persons/'+localStorage.qiwi_account+
+            '/payments?rows=50&operation=IN' +
+            '&startDate=' + startDate +
+            '&endDate=' + endDate,
+            null,
+            async,
+            callback);
+    }
+    api.apiRequests.prototype.getOperationsFromID = function(nextTxnDate, nextTxnId, async, callback) {
+        xhrWithAuth('GET',
+            apiUrl + 'payment-history/v1/persons/'+localStorage.qiwi_account+
+            '/payments?rows=50&operation=IN' +
+            '&nextTxnDate=' + nextTxnDate +
+            '&nextTxnId=' + nextTxnId,
+            null,
+            async,
+            callback);
+    }
     api.apiRequests.prototype.Authorization = function(callback) {
         let  authWindow = new BrowserWindow({
             width: 530,

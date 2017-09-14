@@ -31,6 +31,13 @@ var yastreamAPI = (function() {
             null,
             callback);
     }
+    api.apiRequests.prototype.approveDonation = function(id, async) {
+        xhrWithAuth('GET',
+            apiUrl + 'newdonations?id=' + id,
+            async,
+            null,
+            function(data, error) {console.log(error)});
+    }
     api.apiRequests.prototype.qiwiAuth = function(code, callback) {
        $.post("http://streambeta.azurewebsites.net/api/oauth", {
                     "code": code,
@@ -101,6 +108,14 @@ var yastreamAPI = (function() {
         xhrWithAuth('GET',
             apiUrl + 'Streams_online?streamer_id=' + localStorage.id,
             null,
+            async,
+            callback);
+    }
+
+    api.apiRequests.prototype.updateDonation = function(params, async, callback) {
+        xhrWithAuth('PUT',
+            apiUrl + 'donations',
+            params,
             async,
             callback);
     }

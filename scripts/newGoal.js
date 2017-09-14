@@ -16,7 +16,7 @@ window.onload = function() {
     document.getElementsByClassName('btn').item(0).onclick = () => {
         if (document.getElementsByTagName('input')[0].value && typeof(parseInt(document.getElementsByTagName('input')[1].value)) == 'number'){
             let body1 = {
-                "streamer_id": localStorage.ya_account,
+                "streamer_id": localStorage.id,
                 "name": document.getElementsByTagName('input')[0].value,
                 "start_date": moment().format('YYYY-MM-DD HH:mm:ss'),
                 "amount": document.getElementsByTagName('input')[1].value * 100,
@@ -24,7 +24,7 @@ window.onload = function() {
                 "status": "created"
             }
             $.ajax({
-                url: 'https://yastream.win/api/Goals',
+                url: 'http://streambeta.azurewebsites.net/api/Goals',
                 type: 'POST',
                 data: JSON.stringify(body1),
                 beforeSend: function(xhr) {

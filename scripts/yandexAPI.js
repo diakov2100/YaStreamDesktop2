@@ -25,9 +25,37 @@ var yandexAPI = (function() {
     api.apiRequests.prototype.revokeToken = function(async) {
         xhrWithAuth('POST',
             apiUrl + '/revoke',
-            null,
             async,
+            null,
             (data, error) => { console.log(data) });
+    }
+    api.apiRequests.prototype.checkOperationByID = function(id, async, callback) {
+        var params = JSON.stringify( {
+                    operation_id: id
+        });
+        xhrWithAuth('POST',
+            apiUrl + '/operation-details?operation_id=' + id,
+            async,
+            null,
+            callback);
+    }
+    api.apiRequests.prototype.checkOperationByLable = function(lable, async, callback) {
+        var params = JSON.stringify( {
+                    operation_id: lable
+        });
+        console.log(lable)
+        xhrWithAuth('POST',
+            apiUrl + '/operation-history?label=' + 'yms' + lable,
+            async,
+            null,
+            callback);
+    }
+    api.apiRequests.prototype.getOperationsWithLable = function(startDate, async, callback) {
+        xhrWithAuth('POST',
+            apiUrl + '/operation-history',
+            async,
+            'label=' + 'yms' + '&from=' + startDate,
+            callback);
     }
     /*
         api.apiRequests.prototype.checkauth = function(callback) {
@@ -120,7 +148,7 @@ var yandexAPI = (function() {
         getToken();
 
         function getToken() {
-            if (!localStorage.access_token) {
+            if (!localStorage.ym_token) {
                 //auth
             } else {
                 requestStart();
@@ -130,7 +158,7 @@ var yandexAPI = (function() {
         function requestStart() {
             var xhr = new XMLHttpRequest();
             xhr.open(method, url, async);
-            xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.access_token);
+            xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.ym_token);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onload = requestComplete;
             xhr.send(params);

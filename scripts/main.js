@@ -60,8 +60,10 @@ window.onload = function() {
                 console.log(error)
                 relogin();
             }
+            localStorage.setItem('qiwi_account', data.qiwi_id)
     })
-     yastream.getLiveStream(false, function(data, error){
+    
+    yastream.getLiveStream(false, function(data, error){
             if(data===null){
                localStorage.setItem('liveStream', false)
             }

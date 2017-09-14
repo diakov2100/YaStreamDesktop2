@@ -13,7 +13,7 @@ let donats = true
 let streams = true
 
 $.ajax({
-    url: 'https://yastream.win/api/donations/GetAllDonations?type=streamer&id=' + localStorage.ya_account,
+    url: 'http://streambeta.azurewebsites.net/api/donations/GetAllDonations?type=streamer&id=' + localStorage.id,
     type: 'GET',
     async: false,
     beforeSend: function (xhr) {
@@ -33,7 +33,7 @@ $.ajax({
 })
 
 $.ajax({
-    url: 'https://yastream.win/api/Streams_offline?streamer_id=' + localStorage.ya_account,
+    url: 'http://streambeta.azurewebsites.net/api/Streams_offline?streamer_id=' + localStorage.id,
     type: 'GET',
     async: false,
     beforeSend: function (xhr) {
@@ -83,7 +83,7 @@ window.onload = function(){
                 if (item.operation_id == id){
                     item.answer = inputText
                     $.ajax({
-                        url: 'https://yastream.win/api/donations',
+                        url: 'http://streambeta.azurewebsites.net/api/donations',
                         type: 'PUT',
                         beforeSend: function(xhr) {
                                 xhr.setRequestHeader('Content-Type', 'application/json')

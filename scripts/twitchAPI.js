@@ -109,7 +109,7 @@
 
         function exchangeCodeForToken(code) {
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'https://yastream.win/api/oauth', false)
+            xhr.open('POST', 'http://streambeta.azurewebsites.net', false)
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.onload = function() {
                 if (this.status === 200) {
