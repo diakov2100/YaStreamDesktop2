@@ -1,5 +1,3 @@
-
-
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Header from '../views/player/header.jsx'
@@ -14,10 +12,10 @@ let sett = false
 let settings = null
 
 let qiwi_nextTxnDate
-let qiwi_nextTxnId
-let qiwi_donats =[]
+let qiwi_lastRequest
+let qiwi_donats = []
 
-let ym_donats =[]
+let ym_donats = []
 let ym_lastRequest
 
 const $ = require('./jquery.js')
@@ -44,8 +42,9 @@ $.ajax({
             donats = false
         }
         if (data.length > 0) {
+            donats = []
             data.forEach(function (item) {
-                if (item.status == 'approved') {
+                if (item.status == 'approved' || item.status == 'showed') {
                     donats.push(item)
                     total = Math.round(item.amount + total * 100) / Math.pow(10, 2);
                 }
@@ -134,11 +133,12 @@ window.onload = function () {
             })
         }
     })
+    /*
     if (localStorage.ym_token) {
         checkYM();
-    }
+    }*/
     if (localStorage.qiwi_token) {
-        checkYM();
+        checkQIWI();
     }
     var socket
     var st2 = "ws://streambeta.azurewebsites.net/DonationHandler.ashx";
@@ -149,7 +149,7 @@ window.onload = function () {
         socket = new MozWebSocket(st2);
     }
     socket.onopen = function () {
-        socket.send('{ "account" : "' + localStorage.id+ '", "token": "' + localStorage.Token + '"}');
+        socket.send('{ "account" : "' + localStorage.id + '", "token": "' + localStorage.Token + '"}');
     };
 
     socket.onmessage = function (event, msg) {
@@ -160,9 +160,12 @@ window.onload = function () {
             console.log(event.data)
             if (donation.operation_id.indexOf("qw") >= 0) {
                 qiwi_donats.push(donation)
+                localStorage.qiwi_donats = qiwi_donats;
+                console.log(qiwi_donats)
             }
             else if (donation.operation_id.indexOf("ym") >= 0) {
                 ym_donats.push(donation)
+                localStorage.ym_donats = ym_donats;
                 yandex.checkOperationByID(donation.operation_id.substr(2), true,
                     (data, error) => {
                         if (data) {
@@ -173,20 +176,44 @@ window.onload = function () {
             }
             else {
                 ym_donats.push(donation)
+                storage.set('ym_donats', ym_donats, function (error) {
+                    console.log(error)
+                    if (error) throw error;
+                });
                 console.log(donation)
                 yandex.checkOperationByLable(donation.operation_id, false,
-                    function(data, error){
+                    function (data, error) {
                         console.log(data)
                         if (data) {
-                            findDonationByID(data.operations[0].operation_id, showDonation)
+                            findDonationByID(data.operations[0].label.substr(3), showDonation)
                         }
                     }
                 )
             }
         }
-        if (!donats) {
-            donats = []
-        }
+
+    }
+    /*
+    if (localStorage.ym_donats) {
+        ym_donats = localStorage.ym_donats;
+    }
+    else {
+        ym_donats = []
+    }
+
+    if (localStorage.qiwi_donats) {
+        qiwi_donats = localStorage.qiwi_donats;
+    }
+    else {
+        qiwi_donats = []
+    }
+*/
+    if (localStorage.qiwi_lastRequest) {
+        qiwi_lastRequest = localStorage.qiwi_lastRequest
+    }
+
+    if (!donats) {
+        donats = []
     }
     ipcRenderer.send('settings-window', sett)
     socket.onclose = function (event) {
@@ -202,44 +229,50 @@ remote.getCurrentWindow().on('closed', () => {
 
 function checkYM() {
     if (!ym_lastRequest)
-        ym_lastRequest = String(moment(localStorage.liveStream_startdate).format("YYYY-MM-DDTHH:mm:ss"))+'Z'
-    console.log(localStorage.liveStream_startdate)
+        ym_lastRequest = String(moment(localStorage.liveStream_startdate).format("YYYY-MM-DDTHH:mm:ssZ"))
+    console.log(ym_lastRequest)
     yandex.getOperationsWithLable(ym_lastRequest, true,
         function (data, error) {
             console.log('checkYM', data)
             if (data.operations) {
                 function check(id) {
-                    ym_donats.forEach(function (item){
-                        if (item.operation_id==id) {
+                    ym_donats.forEach(function (item) {
+                        if (item.operation_id == id) {
                             return true
                         }
                     })
                     return false
                 }
                 data.operations.forEach(function (item) {
-                    if (item.label!='yms' && !check(item.label.substr(2)))
-                        yastream.approveDonation(item.operation_id)
+                    if (item.label != 'yms' && item.label.length > 3 && (!check(item.label.substr(3))))
+                        yastream.approveDonation(item.label.substr(3))
                 })
             }
         }
     )
-    ym_lastRequest =String(moment().format("YYYY-MM-DDTHH:mm:ss")) +'Z'
+    ym_lastRequest = String(moment().format("YYYY-MM-DDTHH:mm:ssZ"))
     setTimeout(checkYM, 40000);
 };
 
 function checkQIWI() {
-    if (!qiwi_nextTxnId&&!qiwi_nextTxnDate) {
-        qiwi.getOperationsFromDate(localStorage.liveStream_startdate, moment().format(), true, function(data, error){
-            console.log(data);
-            if (data.data){
+    if (!qiwi_lastRequest) {
+        var buf = String(moment().utc().format("YYYY-MM-DDTHH:mm:ss"));
+        qiwi.getOperationsFromDate(moment(localStorage.liveStream_startdate).utc().format("YYYY-MM-DDTHH:mm:ss"), buf, true, function (data, error) {
+            qiwi_lastRequest = buf;
+            localStorage.qiwi_lastRequest = qiwi_lastRequest;
+            console.log('qw_data', data);
+            if (data.data !== null) {
                 processQIWIData(data)
             }
         })
     }
     else {
-        qiwi.getOperationsFromID( qiwi_nextTxnDate, qiwi_nextTxnId, true, function(data, error){
-                console.log(data);
-            if (data.data){
+        var buf = String(moment().utc().format("YYYY-MM-DDTHH:mm:ss"));
+        qiwi.getOperationsFromDate(qiwi_lastRequest, buf, true, function (data, error) {
+            qiwi_lastRequest = buf;
+            localStorage.qiwi_lastRequest = qiwi_lastRequest;
+            console.log(data);
+            if (data.data !== null) {
                 processQIWIData(data)
             }
         })
@@ -247,30 +280,34 @@ function checkQIWI() {
     setTimeout(checkQIWI, 40050);
 };
 
-function processQIWIData (data) {
-                qiwi_nextTxnId=data.nextTxnId
-                qiwi_nextTxnDate=data.nextTxnDate
-                function find(amount) {
-                    qiwi_donats.forEach(function (item){
-                        if (amount*100 >= item.amount*0.9 && amount*100 <= item.amount*1.1) {
-                            return item
-                        }
-                    })
-                    return false
-                }
-                data.data.forEach(function (item){
-                    var res= find(item.sum.amount);
-                    if(res!=false){
-                        var index = qiwi_donats.indexOf(res);
-                        if (index >= 0) {
-                            qiwi_donats.splice( index, 1 );
-                        }
-                        showDonation(res)
-                    }
-                })
+function processQIWIData(QIWIdata) {
+    console.log(qiwi_donats)
+    var current;
+    function find(item) {
+        console.log(current, item)
+        if (((current.sum.amount + current.commission.amount) * 100 == item.amount) && (item.text_data.includes(current.comment))) {
+            return item
+        }
+    }
+    QIWIdata.data.reverse().forEach(function (item) {
+        current = item;
+        var res = qiwi_donats.find(find);
+        console.log('qiwi_res', res)
+        if (res) {
+            var index = qiwi_donats.indexOf(res);
+            qiwi_donats.splice(index, 1);
+            storage.set('qiwi_donats', qiwi_donats, function (error) {
+                if (error) error;
+            });
+            showDonation(res)
+        }
+    })
+    localStorage.qiwi_donats = qiwi_donats;
 }
 
 function findDonationByID(id, callback) {
+    console.log(id)
+    console.log(ym_donats)
     if (id.indexOf("ym") >= 0) {
         function check(donation) {
             if (donation.operation_id == 'ym' + id)
@@ -283,7 +320,9 @@ function findDonationByID(id, callback) {
             if (donation.operation_id == id)
                 return donation;
         }
-        callback(ym_donats.find(check))
+        var res = ym_donats.find(check)
+        console.log(res)
+        callback(res)
     }
 }
 
@@ -292,7 +331,7 @@ function showDonation(donation) {
     total = Math.round(donation.amount + total * 100) / Math.pow(10, 2);
     donation.status = "showed"
     donation.date = moment().format('YYYY-MM-DD HH:mm:ss')
-
+    donats.push(donation)
     yastream.updateDonation(donation, true, function (data, error) {
         if (!error) {
             ReactDOM.render(< Header total={total} name={localStorage.streamName} />, document.getElementsByClassName('header')[0])

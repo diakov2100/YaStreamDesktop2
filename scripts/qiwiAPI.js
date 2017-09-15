@@ -33,11 +33,15 @@ var qiwiAPI = (function() {
             callback);
     }
     api.apiRequests.prototype.getOperationsFromDate = function(startDate, endDate, async, callback) {
+        console.log(apiUrl + 'payment-history/v1/persons/'+localStorage.qiwi_account+
+            '/payments?rows=50&operation=IN' +
+            '&startDate=' + startDate +
+            'Z&endDate=' + endDate +'Z')
         xhrWithAuth('GET',
             apiUrl + 'payment-history/v1/persons/'+localStorage.qiwi_account+
             '/payments?rows=50&operation=IN' +
             '&startDate=' + startDate +
-            '&endDate=' + endDate,
+            'Z&endDate=' + endDate +'Z',
             null,
             async,
             callback);

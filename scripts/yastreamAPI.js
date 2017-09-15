@@ -107,16 +107,18 @@ var yastreamAPI = (function() {
     api.apiRequests.prototype.getLiveStream = function(async, callback) {
         xhrWithAuth('GET',
             apiUrl + 'Streams_online?streamer_id=' + localStorage.id,
-            null,
             async,
+            null,
             callback);
     }
 
     api.apiRequests.prototype.updateDonation = function(params, async, callback) {
+        JSON.stringify(params)
+
         xhrWithAuth('PUT',
             apiUrl + 'donations',
-            params,
             async,
+             JSON.stringify(params),
             callback);
     }
     /*

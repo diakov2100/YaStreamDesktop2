@@ -34,9 +34,9 @@ var yandexAPI = (function() {
                     operation_id: id
         });
         xhrWithAuth('POST',
-            apiUrl + '/operation-details?operation_id=' + id,
+            apiUrl + '/operation-details',
             async,
-            null,
+            'operation_id=' + id,
             callback);
     }
     api.apiRequests.prototype.checkOperationByLable = function(lable, async, callback) {
@@ -45,16 +45,16 @@ var yandexAPI = (function() {
         });
         console.log(lable)
         xhrWithAuth('POST',
-            apiUrl + '/operation-history?label=' + 'yms' + lable,
+            apiUrl + '/operation-history',
             async,
-            null,
+            'label=' + 'yms' + lable,
             callback);
     }
     api.apiRequests.prototype.getOperationsWithLable = function(startDate, async, callback) {
         xhrWithAuth('POST',
             apiUrl + '/operation-history',
             async,
-            'label=' + 'yms' + '&from=' + startDate,
+            'from=' + encodeURIComponent(startDate),
             callback);
     }
     /*

@@ -4,6 +4,7 @@ import MainMain from '../views/main/mainMain.jsx';
 
 const { ipcRenderer } = require('electron')
 const remote = require('electron').remote
+const os = require('os');
 const storage = require('electron-json-storage');
 const fs = require('fs')
 const $ = require('./jquery.js')

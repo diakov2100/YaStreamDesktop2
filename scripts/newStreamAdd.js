@@ -180,7 +180,6 @@ window.onload = function() {
     }
     console.log(localStorage.liveStream)
     if (localStorage.liveStream == 'true') {
-        ipcRenderer.send('start-stream', 'to-stream')
         $("div.start").html("<p>Завершить</p>")
         document.getElementsByClassName('start')[0].onclick = endstream
         document.getElementsByClassName('start')[1].onclick = endstream
@@ -354,6 +353,15 @@ function endstream() {
         success: function() {
             localStorage.setItem('liveStream', false)
             storage.remove('goalToOpen', function(error) {
+                if (error) throw error;
+            });
+            storage.remove('qiwi_lastRequest', function(error) {
+                if (error) throw error;
+            });
+            storage.remove('qiwi_donats', function(error) {
+                if (error) throw error;
+            });
+            storage.remove('ym_donats', function(error) {
                 if (error) throw error;
             });
             ipcRenderer.send('end-stream')
