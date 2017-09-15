@@ -376,6 +376,7 @@ ipcMain.on('update-goal', (event, arg) => {
     }
 })
 ipcMain.on('show-donation', (event, arg) => {
+    console.log(arg)
     if (alertWindow) {
         alertWindow.webContents.send('show-donation', arg);
     }

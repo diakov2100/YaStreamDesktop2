@@ -91,7 +91,7 @@ window.onload = function() {
             this.style.color = '#979797'
         }
     }
-    if (!localStorage.qiwi_token && localStorage.ym_token) {
+    else if (!localStorage.qiwi_token && localStorage.ym_token) {
         console.log(localStorage.ya_balance)
         ReactDOM.render(<MainMain stream={localStorage.liveStream} ya_balance={'Я.Д: ' + localStorage.ya_balance + ' руб.'} qiwi_balance={'подключите QIWI'} />, document.getElementsByClassName('container')[0])
         document.getElementsByTagName('p')[2].onclick = () => {
@@ -105,9 +105,14 @@ window.onload = function() {
             this.style.color = '#979797'
         }
     }
-    if (localStorage.qiwi_token && localStorage.ym_token) {
-    ReactDOM.render(<MainMain stream={localStorage.liveStream} ya_balance={'Я.Д: ' + localStorage.ya_balance + ' руб.'} qiwi_balance={'QIWI: ' + localStorage.qiwi_balance + ' руб.'} />, document.getElementsByClassName('container')[0])
+    else if (localStorage.qiwi_token && localStorage.ym_token) {
+        ReactDOM.render(<MainMain stream={localStorage.liveStream} ya_balance={'Я.Д: ' + localStorage.ya_balance + ' руб.'} qiwi_balance={'QIWI: ' + localStorage.qiwi_balance + ' руб.'} />, document.getElementsByClassName('container')[0])
     }
+    else {
+        relogin()
+        ReactDOM.render(<MainMain stream={localStorage.liveStream} ya_balance={''} qiwi_balance={''} />, document.getElementsByClassName('container')[0])
+    }
+
 
             let active = true
 

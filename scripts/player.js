@@ -57,6 +57,7 @@ $.ajax({
 })
 
 window.onload = function () {
+    console.log(localStorage.ym_token)
     ipcRenderer.on('settingsClosed', () => {
         sett = false
         document.getElementsByClassName('settings')[0].childNodes[0].src = '../images/settingsdark.png'
@@ -133,10 +134,10 @@ window.onload = function () {
             })
         }
     })
-    /*
+    
     if (localStorage.ym_token) {
         checkYM();
-    }*/
+    }
     if (localStorage.qiwi_token) {
         checkQIWI();
     }
@@ -166,20 +167,17 @@ window.onload = function () {
             else if (donation.operation_id.indexOf("ym") >= 0) {
                 ym_donats.push(donation)
                 localStorage.ym_donats = ym_donats;
-                yandex.checkOperationByID(donation.operation_id.substr(2), true,
+                showDonation(donation);
+                /*yandex.checkOperationByID(donation.operation_id.substr(2), true,
                     (data, error) => {
                         if (data) {
                             findDonationByID(data.operation_id, showDonation)
                         }
                     }
-                )
+                )*/
             }
             else {
                 ym_donats.push(donation)
-                storage.set('ym_donats', ym_donats, function (error) {
-                    console.log(error)
-                    if (error) throw error;
-                });
                 console.log(donation)
                 yandex.checkOperationByLable(donation.operation_id, false,
                     function (data, error) {
@@ -219,7 +217,7 @@ window.onload = function () {
     socket.onclose = function (event) {
         console.log('ws is closed')
     };
-}
+
 
 
 
@@ -244,7 +242,7 @@ function checkYM() {
                     return false
                 }
                 data.operations.forEach(function (item) {
-                    if (item.label != 'yms' && item.label.length > 3 && (!check(item.label.substr(3))))
+                    if (item.label && item.label != 'yms' && item.label.length > 3 && (!check(item.label.substr(3))))
                         yastream.approveDonation(item.label.substr(3))
                 })
             }
@@ -271,7 +269,7 @@ function checkQIWI() {
         qiwi.getOperationsFromDate(qiwi_lastRequest, buf, true, function (data, error) {
             qiwi_lastRequest = buf;
             localStorage.qiwi_lastRequest = qiwi_lastRequest;
-            console.log(data);
+            console.log('qw_data', data);
             if (data.data !== null) {
                 processQIWIData(data)
             }
@@ -281,7 +279,7 @@ function checkQIWI() {
 };
 
 function processQIWIData(QIWIdata) {
-    console.log(qiwi_donats)
+    console.log('qiwi_donats', qiwi_donats)
     var current;
     function find(item) {
         console.log(current, item)
@@ -296,9 +294,6 @@ function processQIWIData(QIWIdata) {
         if (res) {
             var index = qiwi_donats.indexOf(res);
             qiwi_donats.splice(index, 1);
-            storage.set('qiwi_donats', qiwi_donats, function (error) {
-                if (error) error;
-            });
             showDonation(res)
         }
     })
@@ -332,12 +327,16 @@ function showDonation(donation) {
     donation.status = "showed"
     donation.date = moment().format('YYYY-MM-DD HH:mm:ss')
     donats.push(donation)
+    console.log(donation)
     yastream.updateDonation(donation, true, function (data, error) {
+        console.log(donation, data, error);
         if (!error) {
             ReactDOM.render(< Header total={total} name={localStorage.streamName} />, document.getElementsByClassName('header')[0])
             ReactDOM.render(< PlayerMain full={full} donats={donats} />, document.getElementsByClassName('main')[0])
+            console.log(donation)
             ipcRenderer.send('show-donation', donation)
             ipcRenderer.send('update-goal', donation.amount)
         }
     })
+}
 }

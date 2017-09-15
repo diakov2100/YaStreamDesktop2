@@ -62,7 +62,8 @@ var qiwiAPI = (function() {
             frame: false,
             height: 400,
             type: 'splash',
-            show: false
+            show: false,
+            alwaysOnTop: true
         });
 
         authWindow.loadURL('file://' + __dirname + '/../HTMLs/qiwi.html');

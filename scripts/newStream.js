@@ -41,7 +41,7 @@ require('electron').ipcRenderer.on('end-stream', (event) => {
 })
 
 window.onload = function() {
-    ReactDOM.render( < NewStreamMain / > , document.getElementsByClassName('container')[0])
+    //ReactDOM.render( < NewStreamMain / > , document.getElementsByClassName('container')[0])
     $("div.update").on('click', update)
     $("div.update").hide();
     setDefaultData();

@@ -41,7 +41,7 @@ require('electron').ipcRenderer.on('end-stream', (event) => {
 })
 
 window.onload = function() {
-    ReactDOM.render( < NewStreamMain / > , document.getElementsByClassName('container')[0])
+    //ReactDOM.render( < NewStreamMain / > , document.getElementsByClassName('container')[0])
     $("div.update").on('click', update)
     $("div.update").hide();
     setDefaultData();
@@ -180,6 +180,7 @@ window.onload = function() {
     }
     console.log(localStorage.liveStream)
     if (localStorage.liveStream == 'true') {
+        //ipcRenderer.send('start-stream', 'to-stream')
         $("div.start").html("<p>Завершить</p>")
         document.getElementsByClassName('start')[0].onclick = endstream
         document.getElementsByClassName('start')[1].onclick = endstream
@@ -208,6 +209,7 @@ let validation = () => {
                 return false
             }
             else {
+                console.log('12')
                 return true
             }
         });
@@ -233,8 +235,9 @@ function checkurl()
     $('#link').val('')
 }
 function startstream() {
-
-    if (!validation()) {
+    var r =validation();
+    console.log(r)
+    if (!r) {
         let notValid = []
         let inputs = document.getElementsByClassName('valid')
         for (let i = 0; i < inputs.length; i++) {
@@ -245,7 +248,8 @@ function startstream() {
         for (let i = 0; i < notValid.length; i++) {
             changeColor(notValid[i].id)
         }
-    } else {
+    } else {}
+        console.log('12')
         storage.set('autoAlert', autoAlert, function(error) {
             if (error) throw error;
         });
@@ -327,7 +331,7 @@ function startstream() {
                 console.log(JSON.parse(error.responseText));
             }
         })
-    }
+    {}
 }
 
 
@@ -353,15 +357,6 @@ function endstream() {
         success: function() {
             localStorage.setItem('liveStream', false)
             storage.remove('goalToOpen', function(error) {
-                if (error) throw error;
-            });
-            storage.remove('qiwi_lastRequest', function(error) {
-                if (error) throw error;
-            });
-            storage.remove('qiwi_donats', function(error) {
-                if (error) throw error;
-            });
-            storage.remove('ym_donats', function(error) {
                 if (error) throw error;
             });
             ipcRenderer.send('end-stream')

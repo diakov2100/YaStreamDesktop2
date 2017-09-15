@@ -1,8 +1,12 @@
 const remote = require('electron').remote
 $ = require('./jquery.js')
+const {shell} = require('electron')
+
 let pic = 1
 var yastream = new yastreamAPI.apiRequests()
 window.onload = function() {
+
+    shell.openExternal('https://qiwi.com/api')
     let back = document.getElementsByTagName('p')[0]
     back.onmouseover = function() {
         document.getElementsByTagName('img')[0].src = '../images/arrowActive.png'

@@ -33,10 +33,11 @@ var yandexAPI = (function() {
         var params = JSON.stringify( {
                     operation_id: id
         });
+        console.log(id)
         xhrWithAuth('POST',
             apiUrl + '/operation-details',
             async,
-            'operation_id=' + id,
+            encodeURIComponent('operation_id=' + id),
             callback);
     }
     api.apiRequests.prototype.checkOperationByLable = function(lable, async, callback) {
