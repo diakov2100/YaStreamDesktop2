@@ -249,7 +249,7 @@ function checkYM() {
         }
     )
     ym_lastRequest = String(moment().format("YYYY-MM-DDTHH:mm:ssZ"))
-    setTimeout(checkYM, 40000);
+    setTimeout(checkYM, 15000);
 };
 
 function checkQIWI() {
@@ -275,7 +275,7 @@ function checkQIWI() {
             }
         })
     }
-    setTimeout(checkQIWI, 40050);
+    setTimeout(checkQIWI, 15050);
 };
 
 function processQIWIData(QIWIdata) {
