@@ -47,7 +47,7 @@ window.onload = function(){
             })
     }
 
-    /*document.getElementsByClassName('button')[1].onclick = () => {
+    document.getElementsByClassName('button')[1].onclick = () => {
         if ($('#indi-color').val() == ''){
             localStorage.setItem('goalsSettings_indiColor', 'rgb(243, 198, 71)')
         } else {
@@ -74,7 +74,7 @@ window.onload = function(){
         localStorage.setItem('goalsSettings_showLimits', $('#showLimits').val())
         localStorage.setItem('HasGoalSettings', 'True')
         remote.getCurrentWindow().close()
-    }*/
+    }
 
     let returnBtn = document.getElementsByClassName('return')[0]
 

@@ -16,6 +16,7 @@
     width: 360px;
     min-height: 640px;
     -webkit-app-region: drag;
+    background-color: #29292c;
 }
 
 .titleBar {

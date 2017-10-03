@@ -13,6 +13,12 @@ window.onload = function() {
     document.getElementsByClassName('return')[0].onclick = () => {
         remote.getCurrentWindow().close()
     }
+    document.getElementsByClassName('return')[0].onmouseover = function(){
+        this.childNodes[0].childNodes[0].src = '../images/arrowActive.png'
+    }
+    document.getElementsByClassName('return')[0].onmouseout = function(){
+        this.childNodes[0].childNodes[0].src = '../images/bitmap.png'
+    }
     document.getElementsByClassName('btn').item(0).onclick = () => {
         if (document.getElementsByTagName('input')[0].value && typeof(parseInt(document.getElementsByTagName('input')[1].value)) == 'number'){
             let body1 = {
@@ -24,7 +30,7 @@ window.onload = function() {
                 "status": "created"
             }
             $.ajax({
-                url: 'http://streambeta.azurewebsites.net/api/Goals',
+                url: 'https://www.yastream.win/api/Goals',
                 type: 'POST',
                 data: JSON.stringify(body1),
                 beforeSend: function(xhr) {

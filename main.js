@@ -50,7 +50,7 @@ app.on('ready', () => {
         } else {
             autorizationWindow = new BrowserWindow({
                 width: 360,
-                height: 420,
+                height: 380,
                 titleBarStyle: 'hidden',
                 resizable: false,
                 fullscreenable: false,
@@ -101,27 +101,31 @@ ipcMain.on('reload-main', () => {
 })
 ipcMain.on('show-settings', (event) => {
     event.returnValue = false
-    settingsWindow = new BrowserWindow({
-        width: 500,
-        height: 210,
-        titleBarStyle: 'hidden',
-        fullscreenable: false,
-        show: false,
-        frame: false,
-        useContentSize: true
-    });
-    settingsWindow.loadURL('file://' + __dirname + '/HTMLs/settings.html');
-    settingsWindow.on('closed', () => {
-        settingsWindow = null
-        if (mainWindow) {
-            event.sender.send('settings-closed', true)
-            mainWindow.show()
-            mainWindow.focus()
-        }
-    });
-    settingsWindow.once('ready-to-show', () => {
-        settingsWindow.show()
-    })
+    if (settingsWindow){
+        settingsWindow.focus()
+    } else {
+        settingsWindow = new BrowserWindow({
+            width: 500,
+            height: 210,
+            titleBarStyle: 'hidden',
+            fullscreenable: false,
+            show: false,
+            frame: false,
+            useContentSize: true
+        });
+        settingsWindow.loadURL('file://' + __dirname + '/HTMLs/settings.html');
+        settingsWindow.on('closed', () => {
+            settingsWindow = null
+            if (mainWindow) {
+                event.sender.send('settings-closed', true)
+                mainWindow.show()
+                mainWindow.focus()
+            }
+        });
+        settingsWindow.once('ready-to-show', () => {
+            settingsWindow.show()
+        })
+    }
 })
 ipcMain.on('show-history', () => {
     mainWindow.hide()

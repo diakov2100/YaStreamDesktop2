@@ -40,7 +40,7 @@ window.onload = function(){
             syntes = false
         }
     })
-    /*
+    
     document.getElementsByClassName('btn-save')[0].onclick = () => {
         localStorage.setItem('syntes', syntes)
         localStorage.setItem('alertLengthSec', $('#inputHeight').val())
@@ -51,7 +51,7 @@ window.onload = function(){
             localStorage.setItem('alertBackColor', $('#color-picker').val())
         }
         ipcRenderer.send('donationSettings-closed')
-    }*/
+    }
 
     let returnBtn = document.getElementsByClassName('return')[0]
 

@@ -7,7 +7,7 @@ let checker
 const { ipcRenderer } = require('electron')
 
 $.ajax({
-    url: 'http://streambeta.azurewebsites.net/api/Goals?streamer_id=' + localStorage.id + '&status=all',
+    url: 'https://www.yastream.win/api/Goals?streamer_id=' + localStorage.id + '&status=all',
     type: 'GET',
     async: false,
     beforeSend: function(xhr) {
@@ -36,7 +36,7 @@ require('electron').ipcRenderer.on('update-goal', (event, donate) => {
     document.getElementsByClassName('sum_h1')[0].innerHTML = str
     document.getElementsByClassName('inlay')[0].style.width = percents + '%'
     $.ajax({
-        url: 'http://streambeta.azurewebsites.net/api/Goals',
+        url: 'https://www.yastream.win/api/Goals',
         type: 'PUT',
         async: true,
         data: JSON.stringify(goal),

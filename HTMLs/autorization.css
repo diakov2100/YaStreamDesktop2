@@ -18,7 +18,7 @@ li {
 
 .container {
     width: 360px;
-    height: 420px;
+    height: 380px;
     -webkit-app-region: drag;
     background-color: #29292c;
 }

@@ -26,34 +26,34 @@ window.onload = function() {
     let links = document.getElementsByTagName('li')
 
     let enter = links.item(0)
-    let enter_qiwi = links.item(1)
-    let registration = links.item(2)
-    let exit = links.item(3)
+    //let enter_qiwi = links.item(1)
+    let registration = links.item(1)
+    let exit = links.item(2)
 
-    enter_qiwi.onclick = () => {
-       let  authWindow = new BrowserWindow({
-            width: 530,
-            frame: false,
-            height: 400,
-            type: 'splash',
-            show: false,
-            alwaysOnTop: true
-        });
+    // enter_qiwi.onclick = () => {
+    //    let  authWindow = new BrowserWindow({
+    //         width: 530,
+    //         frame: false,
+    //         height: 400,
+    //         type: 'splash',
+    //         show: false,
+    //         alwaysOnTop: true
+    //     });
 
-        authWindow.loadURL('file://' + __dirname + '/../HTMLs/qiwi.html');
-        authWindow.on('closed', () => {
-            authWindow = null;
-            if (localStorage.qiwi_token){
-                storage.set('auth', true, function(error) {
-                                if (error) console.log(error);
-                            });
-                ipcRenderer.send('show-main-from-auto')
-            }
-        })
-        authWindow.once('ready-to-show', () => {
-            authWindow.show()
-        })
-    }
+    //     authWindow.loadURL('file://' + __dirname + '/../HTMLs/qiwi.html');
+    //     authWindow.on('closed', () => {
+    //         authWindow = null;
+    //         if (localStorage.qiwi_token){
+    //             storage.set('auth', true, function(error) {
+    //                             if (error) console.log(error);
+    //                         });
+    //             ipcRenderer.send('show-main-from-auto')
+    //         }
+    //     })
+    //     authWindow.once('ready-to-show', () => {
+    //         authWindow.show()
+    //     })
+    // }
 
     enter.onclick = () => {
 
@@ -83,9 +83,10 @@ window.onload = function() {
        
         authWindow.webContents.on('will-navigate', function(event, url) {
             console.log(url)
+            
             if (url.includes(redirect_url)){
             let code = url.split('=')[1]
-             $.post("http://streambeta.azurewebsites.net/api/oauth", {
+             $.post("https://yastream.win/api/oauth", {
                     "code": code,
                     "type": "yandex_money",
                     "streamer": "yes"
@@ -122,7 +123,7 @@ window.onload = function() {
             console.log(code)
             if (newUrl.includes(redirect_url)){
 
-            $.post("http://streambeta.azurewebsites.net/api/oauth", {
+            $.post("https://yastream.win/api/oauth", {
                     "code": code,
                     "type": "yandex_money",
                     "streamer": "yes"

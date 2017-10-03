@@ -31,8 +31,9 @@ h1 {
     display: inline-block;
 }
 
-p.return {
+.return {
     -webkit-app-region: no-drag;
+    z-index: 2;
 }
 
 .header-text p {
@@ -75,11 +76,16 @@ p.return {
 input:focus,
 input:hover {
     outline: none;
+    color: #f3c647;
     border-bottom: 3px solid #f3c647;
 }
 
 .inputs input:last-child {
     margin-top: 28px;
+}
+
+.return:hover {
+    color: #f3c647;
 }
 
 .btn {

@@ -20,7 +20,7 @@ let goals
 let animate = false
 
 $.ajax({
-    url: 'http://streambeta.azurewebsites.net/api/Goals?streamer_id=' + localStorage.id + '&status=all',
+    url: 'https://www.yastream.win/api/Goals?streamer_id=' + localStorage.id + '&status=all',
     type: 'GET',
     async: false,
     beforeSend: function(xhr) {
@@ -153,7 +153,7 @@ window.onload = function() {
     document.getElementsByClassName('getLink')[0].onclick = () => {
 
         if ($('#link').val().length > 0) {
-            clipboard.writeText("http://streambeta.azurewebsites.net/home/donation?url=" + $('#link').val())
+            clipboard.writeText("https://www.yastream.win/home/donation?url=" + $('#link').val())
             if (!animate) {
                 animate = true
                 $('.pop-up').html('<p>Ссылка скопироана в буфер обмена</p>');
@@ -275,7 +275,7 @@ function startstream() {
 
         ipcRenderer.send('start-stream', 'to-stream')
         $.ajax({
-            url: 'http://streambeta.azurewebsites.net/api/Streams_online',
+            url: 'https://www.yastream.win/api/Streams_online',
             type: 'POST',
             async: false,
             data: JSON.stringify(data),
@@ -308,7 +308,7 @@ function startstream() {
                 localStorage.setItem('liveStream_settings', settings);
                 console.log(settings);
                 $.ajax({
-                    url: 'http://streambeta.azurewebsites.net/api/streams_settings?streamer_id=' + localStorage.id,
+                    url: 'https://www.yastream.win/api/streams_settings?streamer_id=' + localStorage.id,
                     type: 'POST',
                     async: false,
                     data: JSON.stringify(settings),
@@ -346,7 +346,7 @@ function endstream() {
     }
     console.log(JSON.stringify(data))
     $.ajax({
-        url: 'http://streambeta.azurewebsites.net/api/Streams_online',
+        url: 'https://www.yastream.win/api/Streams_online',
         type: 'PUT',
         async: false,
         data: JSON.stringify(data),
@@ -385,7 +385,7 @@ function update() {
         localStorage.setItem('liveStream_channel', data.channel)
 
         $.ajax({
-            url: 'http://streambeta.azurewebsites.net/api/Streams_online',
+            url: 'https://www.yastream.win/api/Streams_online',
             type: 'PUT',
             async: true,
             data: JSON.stringify(data),
@@ -416,7 +416,7 @@ function update() {
         min_sum: parseInt(map[2])
     }
     $.ajax({
-        url: 'http://streambeta.azurewebsites.net/api/streams_settings?streamer_id=' + localStorage.id,
+        url: 'https://www.yastream.win/api/streams_settings?streamer_id=' + localStorage.id,
         type: 'PUT',
         async: false,
         data: JSON.stringify(settings),
@@ -481,7 +481,7 @@ function upload_images() {
         }
 
         var options = {
-            url: 'http://streambeta.azurewebsites.net/api/images?stream_id=' + localStorage.liveStream_id + '&streamer_id=' + localStorage.id + '&type=logo',
+            url: 'https://www.yastream.win/api/images?stream_id=' + localStorage.liveStream_id + '&streamer_id=' + localStorage.id + '&type=logo',
             headers: {
                 "Token": localStorage.Token
             },
@@ -492,7 +492,7 @@ function upload_images() {
             if (err) {
                 return console.error('upload failed:', err);
             }
-            $('#logo').attr('src', 'http://streambeta.azurewebsites.net/api/images?id=' + localStorage.liveStream_id + '&type=logo');
+            $('#logo').attr('src', 'https://www.yastream.win/api/images?id=' + localStorage.liveStream_id + '&type=logo');
             storage.set('liveStream_logo', {
                 logo: $('#logo').attr('src')
             });
@@ -514,7 +514,7 @@ function upload_images() {
         }
 
         var options = {
-            url: 'http://streambeta.azurewebsites.net/api/images?stream_id=' + localStorage.liveStream_id + '&streamer_id=' + localStorage.id + '&type=preview',
+            url: 'https://www.yastream.win/api/images?stream_id=' + localStorage.liveStream_id + '&streamer_id=' + localStorage.id + '&type=preview',
             headers: {
                 "Token": localStorage.Token
             },
@@ -526,7 +526,7 @@ function upload_images() {
                 return console.error('upload failed:', err);
             }
             
-            $('#preview').attr('src', 'http://streambeta.azurewebsites.net/api/images?id=' + localStorage.liveStream_id + '&type=preview');
+            $('#preview').attr('src', 'https://www.yastream.win/api/images?id=' + localStorage.liveStream_id + '&type=preview');
             storage.set('liveStream_preview', {
                 preview: $('#preview').attr('src')
             });

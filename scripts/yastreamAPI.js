@@ -1,6 +1,6 @@
 var yastreamAPI = (function() {
     var tokenName = 'yastream_token';
-    var apiUrl = 'http://streambeta.azurewebsites.net/api/';
+    var apiUrl = 'https://www.yastream.win/api/';
     const { ipcRenderer } = require('electron')
     const remote = require('electron').remote
     const BrowserWindow = remote.BrowserWindow
@@ -39,7 +39,7 @@ var yastreamAPI = (function() {
             function(data, error) {console.log(error)});
     }
     api.apiRequests.prototype.qiwiAuth = function(code, callback) {
-       $.post("http://streambeta.azurewebsites.net/api/oauth", {
+       $.post("https://www.yastream.win/api/oauth", {
                     "code": code,
                     "type": "qiwi",
                     "streamer": "yes"
@@ -54,7 +54,7 @@ var yastreamAPI = (function() {
     }
     api.apiRequests.prototype.ymAuth = function(code, callback) {
 
-        $.post("http://streambeta.azurewebsites.net/api/oauth", {
+        $.post("https://www.yastream.win/api/oauth", {
                     "code": code,
                     "type": "yandex_money",
                     "streamer": "yes"

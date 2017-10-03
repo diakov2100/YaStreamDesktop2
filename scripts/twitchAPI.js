@@ -109,13 +109,14 @@
 
         function exchangeCodeForToken(code) {
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'http://streambeta.azurewebsites.net', false)
+            xhr.open('POST', 'https://www.yastream.win/api/oauth', false)
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.onload = function() {
                 if (this.status === 200) {
                     var response = JSON.parse(this.responseText);
                     if (response.hasOwnProperty('access_token')) {
                         localStorage.setItem('twitch_access_token', data.access_token)
+                        console.log('here')
                         authWindow.close()
                     } else {}
                 } else {

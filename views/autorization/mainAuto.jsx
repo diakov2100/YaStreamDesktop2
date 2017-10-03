@@ -11,7 +11,7 @@ export default class MainAuto extends React.Component {
         <div>
             <TitleBar windowName="ЯСтрим"/>
             <MiddleField />
-            <MenuBar points={['Вход в Я.Деньги', 'Вход через QIWI','Регистрация аккаунта', 'Выход']}/>
+            <MenuBar points={['Вход в Я.Деньги','Регистрация аккаунта', 'Выход']}/>
         </div>
     )
   }

@@ -20,7 +20,6 @@ let ym_lastRequest
 
 const $ = require('./jquery.js')
 const remote = require('electron').remote
-const { Tray } = require('electron').remote
 const BrowserWindow = remote.BrowserWindow
 const { ipcRenderer } = require('electron')
 const moment = require('moment')
@@ -30,7 +29,7 @@ var yastream = new yastreamAPI.apiRequests()
 var qiwi = new qiwiAPI.apiRequests()
 
 $.ajax({
-    url: 'http://streambeta.azurewebsites.net/api/donations/GetAllDonations?type=streamer&id=' + localStorage.id + '&stream_id=' + localStorage.liveStream_id,
+    url: 'https://www.yastream.win/api/donations/GetAllDonations?type=streamer&id=' + localStorage.id + '&stream_id=' + localStorage.liveStream_id,
     type: 'GET',
     async: false,
     beforeSend: function (xhr) {
@@ -65,11 +64,6 @@ window.onload = function () {
     ipcRenderer.send('inStream')
     ReactDOM.render(<Header total={total} name={localStorage.streamName} />, document.getElementsByClassName('header')[0])
     ReactDOM.render(<PlayerMain full={full} donats={donats} />, document.getElementsByClassName('main')[0])
-    let tray = new Tray(__dirname + '/../images/turn-off.png')
-    tray.on('click', () => {
-        tray.destroy()
-        ipcRenderer.send('end-stream')
-    })
 
     document.getElementsByClassName('header-right')[0].childNodes[0].onclick = () => {
         if (full) {
@@ -119,7 +113,7 @@ window.onload = function () {
                 if (item.operation_id == id) {
                     item.answer = text
                     $.ajax({
-                        url: 'http://streambeta.azurewebsites.net/api/donations',
+                        url: 'https://www.yastream.win/api/donations',
                         type: 'PUT',
                         beforeSend: function (xhr) {
                             xhr.setRequestHeader('Content-Type', 'application/json')
@@ -142,7 +136,7 @@ window.onload = function () {
         checkQIWI();
     }
     var socket
-    var st2 = "ws://streambeta.azurewebsites.net/DonationHandler.ashx";
+    var st2 = "ws://www.yastream.win//DonationHandler.ashx";
 
     if (typeof (WebSocket) !== 'undefined') {
         socket = new WebSocket(st2);
